@@ -10,6 +10,11 @@ namespace SqlWebApp.Pages
         //private readonly ILogger<IndexModel> _logger;
 
         public List<Product> Products;
+        private readonly IProductService _productService;
+        public IndexModel(IProductService productService)
+        {
+            _productService = productService;
+        }   
         //public IndexModel(ILogger<IndexModel> logger)
         //{
         //    _logger = logger;
@@ -18,8 +23,8 @@ namespace SqlWebApp.Pages
         public void OnGet()
         {
             //Products = new List<Product>();
-            ProductService productService = new ProductService();
-            Products = productService.GetAllProducts();
+            
+            Products = _productService.GetAllProducts();
         }
     }
 }
