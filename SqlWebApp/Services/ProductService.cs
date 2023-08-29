@@ -1,5 +1,6 @@
 ﻿using SqlWebApp.Models;
 using System.Data.SqlClient;
+using Newtonsoft.Json;
 
 namespace SqlWebApp.Services
 {
@@ -29,30 +30,18 @@ namespace SqlWebApp.Services
         //    builder.InitialCatalog = db_database;
         //    return new SqlConnection(builder.ConnectionString);
         //}
-        public List<Product> GetAllProducts()
+        public async Task <List<Product>> GetAllProducts()
         {
-            var products = new List<Product>();
-            using (var connection = SqlConnection())
+            string Functionurl = "https://funcappdemokiran.azurewebsites.net/api/GetProduct?code=YXqXw8P4kMrGlZDhUyCOzvhenuSLs_54kSm4pM4c0Kr6AzFuPdlvgg==";
+
+            using (HttpClient _client = new HttpClient())
             {
-                connection.Open();
-                var sql = "SELECT * FROM Products";
-                using (var command = new SqlCommand(sql, connection))
-                {
-                    using (var reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var product = new Product();
-                            product.ProductID = reader.GetInt32(0);
-                            product.ProductName = reader.GetString(1);
-                            product.Quantity = reader.GetInt32(2);
-                            products.Add(product);
-                        }
-                    }
-                    connection.Close();
-                }
+                HttpResponseMessage _response = await _client.GetAsync(Functionurl);
+                string _content = await _response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<List<Product>>(_content);
             }
-            return products;
+
+
         }
     }
     // find all images

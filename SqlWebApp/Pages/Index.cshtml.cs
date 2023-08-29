@@ -24,7 +24,9 @@ namespace SqlWebApp.Pages
         {
             //Products = new List<Product>();
             
-            Products = _productService.GetAllProducts();
+            //Products = _productService.GetAllProducts();
+
+            Products = _productService.GetAllProducts().Result;
         }
     }
 }

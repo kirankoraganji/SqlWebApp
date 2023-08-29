@@ -4,6 +4,6 @@ namespace SqlWebApp.Services
 {
     public interface IProductService
     {
-        List<Product> GetAllProducts();
+        Task <List<Product>> GetAllProducts();
     }
 }
